@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Load plugin configuration
-$config_file = plugin_dir_path(__FILE__) . 'config/plugin.php';
+$config_file = plugin_dir_path(__FILE__) . 'config.php';
 if (file_exists($config_file)) {
     $plugin_config = include $config_file;
     if ($plugin_config) {

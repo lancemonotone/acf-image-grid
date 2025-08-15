@@ -55,8 +55,7 @@ plugin-name/
 │   ├── class.block-renderer.php
 │   ├── class.field-groups.php
 │   └── class.post-types.php
-├── config/
-│   └── plugin.php
+├── config.php
 ├── templates/
 ├── plugin-name.php
 ├── .gitignore
@@ -84,7 +83,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Load plugin configuration
-$config_file = plugin_dir_path(__FILE__) . 'config/plugin.php';
+$config_file = plugin_dir_path(__FILE__) . 'config.php';
 if (file_exists($config_file)) {
     $plugin_config = include $config_file;
     if ($plugin_config) {
@@ -97,7 +96,7 @@ if (file_exists($config_file)) {
 require_once plugin_dir_path(__FILE__) . 'classes/class.autoloader.php';
 ```
 
-### 2. Configuration File (`config/plugin.php`)
+### 2. Configuration File (`config.php`)
 
 ```php
 <?php
@@ -969,7 +968,7 @@ if (!empty($block['className'])) {
 
 ### Overview
 
-The scaffold uses a PHP configuration file (`config/plugin.php`) to make all classes completely agnostic and reusable. This means:
+The scaffold uses a PHP configuration file (`config.php`) to make all classes completely agnostic and reusable. This means:
 
 - **Classes never need to be edited** when creating new plugins
 - **All customization is done through the config file**
@@ -1054,7 +1053,7 @@ cd wp-content/plugins/your-plugin-name
  */
 ```
 
-**Update the configuration file (`config/plugin.php`):**
+**Update the configuration file (`config.php`):**
 
 ```php
 return [
