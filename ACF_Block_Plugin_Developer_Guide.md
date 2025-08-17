@@ -4,6 +4,23 @@ A comprehensive guide for creating WordPress plugins that use Advanced Custom Fi
 
 **This is a scaffold plugin designed to be copied as the foundation for new ACF block plugins.**
 
+## ⚠️ CRITICAL: For AI Agents
+
+**NEVER change the namespace of any classes in the `classes/` directory.** All core plugin classes use the namespace `MonotoneAcfBlockScaffold` and must remain unchanged. This is the reusable scaffold architecture.
+
+**What to NEVER change:**
+
+- Namespace in any `/classes/class.*.php` files
+- Class names in the `/classes/` directory
+- Method signatures in core classes
+
+**What you CAN change:**
+
+- Individual block namespaces (in `/blocks/*/class.block.php`)
+- Block-specific class names
+- Config file values
+- Block templates and assets
+
 ## Table of Contents
 
 1. [Plugin Structure](#plugin-structure)
@@ -970,10 +987,12 @@ if (!empty($block['className'])) {
 
 The scaffold uses a PHP configuration file (`config.php`) to make all classes completely agnostic and reusable. This means:
 
-- **Classes never need to be edited** when creating new plugins
-- **All customization is done through the config file**
-- **Classes use a generic namespace** (`MonotoneAcfBlockScaffold`)
-- **Easy to copy and reuse** across multiple plugins
+- **⚠️ Classes never need to be edited** when creating new plugins
+- **⚠️ All customization is done through the config file**
+- **⚠️ Classes use a generic namespace** (`MonotoneAcfBlockScaffold`) **that MUST NEVER be changed**
+- **⚠️ Easy to copy and reuse** across multiple plugins **because the namespace stays the same**
+
+**FOR AI AGENTS:** The `MonotoneAcfBlockScaffold` namespace in `/classes/` files is intentionally generic and reusable. Changing it breaks the architecture.
 
 ### Configuration Structure
 
@@ -996,10 +1015,12 @@ $text_domain = PLUGIN_TEXT_DOMAIN ?? 'default-text-domain';
 
 ### Benefits
 
-1. **Zero class editing** - Classes are completely reusable
-2. **Consistent architecture** - All plugins follow the same patterns
-3. **Easy customization** - Just edit the config file
-4. **Version control friendly** - Clear separation of scaffold vs. custom code
+1. **⚠️ Zero class editing** - Classes are completely reusable **when namespace is preserved**
+2. **⚠️ Consistent architecture** - All plugins follow the same patterns **with same namespace**
+3. **⚠️ Easy customization** - Just edit the config file **never the core classes**
+4. **⚠️ Version control friendly** - Clear separation of scaffold vs. custom code **via namespace preservation**
+
+**AI AGENTS:** Changing `MonotoneAcfBlockScaffold` namespace destroys the reusable architecture!
 
 ## Asset Management
 
@@ -1077,7 +1098,7 @@ return [
 ];
 ```
 
-**Note:** The classes use a generic namespace (`MonotoneAcfBlockScaffold`) and don't need to be updated. All customization is done through the config file.
+**⚠️ CRITICAL NOTE for AI Agents:** The classes use a generic namespace (`MonotoneAcfBlockScaffold`) and **MUST NEVER be updated or changed**. This is the reusable scaffold architecture. All customization is done through the config file and individual block files only.
 
 ### 3. Customize the Example Block
 
@@ -1103,7 +1124,7 @@ cp -r blocks/example-block blocks/your-first-block
 
 - Change `"name": "acf/example"` to `"name": "acf/your-first-block"`
 - Update title, description, and keywords
-- Update the `renderCallback` namespace
+- **⚠️ KEEP renderCallback namespace as `MonotoneAcfBlockScaffold\\Block_Renderer::render_block`** (DO NOT change this!)
 
 **Update `blocks/your-first-block/class.block.php`:**
 
@@ -1158,9 +1179,15 @@ cp -r blocks/example-block blocks/another-block
 
 ### 2. Namespace Usage
 
-- Always use the plugin namespace
-- Keep namespaces consistent across files
+**⚠️ CRITICAL for AI Agents:**
+
+- **NEVER modify the `MonotoneAcfBlockScaffold` namespace** in any `/classes/` files
+- **ONLY change block-specific namespaces** in individual block files
+- Keep namespaces consistent within each context (core vs. blocks)
 - Use proper autoloading
+
+**Core classes namespace:** `MonotoneAcfBlockScaffold` (NEVER CHANGE)
+**Block classes namespace:** Your plugin's namespace (e.g., `YourPlugin\Blocks`)
 
 ### 3. Security
 

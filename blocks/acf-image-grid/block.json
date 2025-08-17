@@ -1,0 +1,21 @@
+{
+  "name": "acf/acf-image-grid",
+  "title": "ACF Image Grid",
+  "description": "Advanced Custom Fields Image Grid block for displaying image galleries",
+  "category": "acf-image-grid",
+  "icon": "format-gallery",
+  "keywords": ["image", "grid", "gallery", "acf"],
+  "acf": {
+    "mode": "preview",
+    "renderCallback": "MonotoneAcfBlockScaffold\\Block_Renderer::render_block",
+    "useEditorTemplate": false
+  },
+  "supports": {
+    "align": false,
+    "mode": false,
+    "jsx": false
+  },
+  "editorStyle": "file:./assets/css/editor.css",
+  "style": "file:./assets/css/style.css",
+  "textdomain": "acf-image-grid"
+}

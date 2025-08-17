@@ -1,0 +1,164 @@
+/**
+ * ACF Image Grid Block - Editor Styles
+ * Visual indicators for slot positioning in WordPress editor
+ */
+
+/* Editor-only slot number overlays */
+.acf-image-grid {
+  position: relative;
+
+  .slot {
+    position: relative;
+
+    /* Slot number overlay - only visible in editor */
+    &::before {
+      content: "Slot " attr(data-slot-number);
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+      z-index: 100;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Special styling for primary slot */
+    &.primary::before {
+      content: "Slot 1 - Slideshow";
+      background: rgba(37, 99, 235, 0.9);
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    /* Empty slot styling - when slot contains only placeholder */
+    &:has(.placeholder)::before {
+      background: rgba(107, 114, 128, 0.9);
+    }
+
+    /* Hover effect for better visibility */
+    &:hover::before {
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+    }
+  }
+}
+
+/* ACF field group styling improvements */
+.acf-field-group {
+  .acf-field-group-title {
+    background: #f9fafb;
+    border-left: 4px solid #3b82f6;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-weight: 600;
+
+    &[data-slot="1"] {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    &[data-slot="2"],
+    &[data-slot="3"],
+    &[data-slot="4"],
+    &[data-slot="5"],
+    &[data-slot="6"] {
+      border-left-color: #10b981;
+      background: #f0fdf4;
+    }
+  }
+}
+
+/* Grid layout preview in editor */
+.acf-image-grid {
+  /* Add a subtle grid overlay in editor */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(
+        rgba(59, 130, 246, 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: calc(100% / 12) calc(100% / 12);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.3;
+  }
+
+  .slot {
+    /* Ensure slots appear above grid overlay */
+    z-index: 2;
+  }
+}
+
+/* Block inspector (sidebar) enhancements */
+.components-panel__body {
+  .acf-field-group {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 16px;
+
+    .acf-field-group-title {
+      margin: 0;
+      border-radius: 6px 6px 0 0;
+      border-left: none;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+        background: #6b7280;
+      }
+
+      &[data-slot="1"]::before {
+        background: #3b82f6;
+      }
+
+      &[data-slot="2"],
+      &[data-slot="3"],
+      &[data-slot="4"],
+      &[data-slot="5"],
+      &[data-slot="6"] {
+        &::before {
+          background: #10b981;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive preview indicators */
+@media (max-width: 768px) {
+  .acf-image-grid .slot::before {
+    content: "Slot " attr(data-slot-number) " (Mobile: Stacked)";
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .acf-image-grid .slot.primary::before {
+    content: "Slot 1 - Slideshow (Mobile: First)";
+  }
+}
+
+/* Hide slot indicators on frontend */
+.wp-site-blocks .acf-image-grid .slot::before,
+.site-content .acf-image-grid .slot::before {
+  display: none !important;
+}
