@@ -71,15 +71,20 @@ $autoplay_data = [
                             <div class="slide<?php echo $index === 0 ? ' active' : ''; ?>"
                                 data-slide-index="<?php echo esc_attr($index); ?>"
                                 aria-hidden="<?php echo $index === 0 ? 'false' : 'true'; ?>">
-                                <img <?php if ($index === 0): ?>
-                                    src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
-                                    loading="eager"
-                                    <?php else: ?>
-                                    data-src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
-                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
-                                    loading="lazy"
-                                    <?php endif; ?>
-                                    alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>">
+
+                                <?php if ($index === 0): ?>
+                                    <!-- First slide loads immediately -->
+                                    <img src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
+                                        loading="eager"
+                                        alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>">
+                                <?php else: ?>
+                                    <!-- Subsequent slides use lazy loading with spinners -->
+                                    <img data-src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
+                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
+                                        loading="lazy"
+                                        class="lazy-load-image"
+                                        alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>">
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -137,9 +142,11 @@ $autoplay_data = [
     ?>
         <div class="slot secondary" data-slot-number="<?php echo $slot_number; ?>">
             <?php if (!empty($slot_data['image'])): ?>
-                <img src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
-                    alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>"
-                    loading="lazy">
+                <img data-src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
+                    loading="lazy"
+                    class="lazy-load-image"
+                    alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>">
 
                 <?php if (!empty($slot_data['link']) && !empty($slot_data['link']['title'])): ?>
                     <div class="caption">
