@@ -24,5 +24,10 @@ return [
 
     'post_types' => [
         // No custom post types needed for this image grid plugin
+    ],
+
+    'debug' => false, // Set to true to disable minification and serve unminified files
+    'assets' => [
+        'minify' => true // Force minification even in debug mode
     ]
 ];
