@@ -9,8 +9,8 @@ class ACFImageGridSlideshow {
     this.slideshow = element.querySelector(".slideshow");
     this.slides = element.querySelectorAll(".slide");
     this.dots = element.querySelectorAll(".dot");
-    this.prevButton = element.querySelector(".arrow.prev");
-    this.nextButton = element.querySelector(".arrow.next");
+    this.prevButton = element.querySelector(".acf-slideshow-prev");
+    this.nextButton = element.querySelector(".acf-slideshow-next");
     this.counter = element.querySelector(".counter .current");
 
     // Settings from data attributes

@@ -147,13 +147,14 @@
 /* Responsive preview indicators */
 @media (max-width: 768px) {
   .acf-image-grid .slot::before {
-    content: "Slot " attr(data-slot-number) " (Mobile: Stacked)";
+    content: "Slot " attr(data-slot-number) " (Mobile: 4:1 Stacked)";
     font-size: 11px;
     padding: 3px 6px;
   }
 
   .acf-image-grid .slot.primary::before {
-    content: "Slot 1 - Slideshow (Mobile: First)";
+    content: "Slot 1 - Slideshow (Mobile: Hidden)";
+    background: rgba(239, 68, 68, 0.9);
   }
 }
 

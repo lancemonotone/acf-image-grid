@@ -79,8 +79,7 @@ $autoplay_data = [
                                     src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
                                     loading="lazy"
                                     <?php endif; ?>
-                                    alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>"
-                                    style="aspect-ratio: 350/233.33;">
+                                    alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -89,14 +88,20 @@ $autoplay_data = [
                 <?php if (count($slideshow_images) > 1): ?>
 
                     <?php if ($show_arrows): ?>
-                        <div class="arrows">
-                            <button class="arrow prev" aria-label="Previous image">
-                                <span class="icon">‹</span>
-                            </button>
-                            <button class="arrow next" aria-label="Next image">
-                                <span class="icon">›</span>
-                            </button>
-                        </div>
+                        <button class="acf-slideshow-nav acf-slideshow-prev" tabindex="0" aria-label="Previous slide">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <circle class="bg" cx="12" cy="12" r="11"></circle>
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path class="arrow" d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z"></path>
+                            </svg>
+                        </button>
+                        <button class="acf-slideshow-nav acf-slideshow-next" tabindex="0" aria-label="Next slide">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <circle class="bg" cx="12" cy="12" r="11"></circle>
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path class="arrow" d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z"></path>
+                            </svg>
+                        </button>
                     <?php endif; ?>
 
                     <?php if ($show_dots): ?>
@@ -134,8 +139,7 @@ $autoplay_data = [
             <?php if (!empty($slot_data['image'])): ?>
                 <img src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
                     alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>"
-                    loading="lazy"
-                    style="aspect-ratio: 350/233.33;">
+                    loading="lazy">
 
                 <?php if (!empty($slot_data['link']) && !empty($slot_data['link']['title'])): ?>
                     <div class="caption">
