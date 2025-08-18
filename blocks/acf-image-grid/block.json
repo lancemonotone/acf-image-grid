@@ -15,7 +15,5 @@
     "mode": false,
     "jsx": false
   },
-  "editorStyle": "file:./assets/css/editor.css",
-  "style": "file:./assets/css/style.css",
   "textdomain": "acf-image-grid"
 }
