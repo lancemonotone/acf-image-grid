@@ -34,7 +34,7 @@ Example:
 "renderCallback": "MonotoneAcfBlockScaffold\\Block_Renderer::render_block"
 ```
 
-The plugin's core classes (Block_Renderer, Field_Groups, Block_Loader, etc.) all use the `MonotoneAcfBlockScaffold` namespace, while individual blocks use their own namespaces like `MonotoneACFImageGrid\Blocks`.
+The plugin's core classes (Block_Renderer, Field_Groups, Block_Loader, etc.) all use the `MonotoneAcfBlockScaffold` namespace, while individual blocks use their own namespaces like `Monotone\Blocks\ACFImageGrid`.
 
 ## Usage
 

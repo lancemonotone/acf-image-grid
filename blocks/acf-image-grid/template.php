@@ -51,6 +51,9 @@ $autoplay_data = [
     'enabled' => $autoplay_enabled,
     'duration' => $autoplay_duration
 ];
+
+// Detect if we're in the editor environment
+$is_editor = is_admin() || $is_preview || (defined('REST_REQUEST') && REST_REQUEST);
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
@@ -72,13 +75,13 @@ $autoplay_data = [
                                 data-slide-index="<?php echo esc_attr($index); ?>"
                                 aria-hidden="<?php echo $index === 0 ? 'false' : 'true'; ?>">
 
-                                <?php if ($index === 0): ?>
-                                    <!-- First slide loads immediately -->
+                                <?php if ($index === 0 || $is_editor): ?>
+                                    <!-- First slide or editor: load immediately -->
                                     <img src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
-                                        loading="eager"
+                                        loading="<?php echo $is_editor ? 'eager' : 'eager'; ?>"
                                         alt="<?php echo esc_attr($image['alt'] ?: $image['title'] ?: ''); ?>">
                                 <?php else: ?>
-                                    <!-- Subsequent slides use lazy loading with spinners -->
+                                    <!-- Subsequent slides: use lazy loading with spinners -->
                                     <img data-src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
                                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
                                         loading="lazy"
@@ -142,11 +145,19 @@ $autoplay_data = [
     ?>
         <div class="slot secondary" data-slot-number="<?php echo $slot_number; ?>">
             <?php if (!empty($slot_data['image'])): ?>
-                <img data-src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
-                    loading="lazy"
-                    class="lazy-load-image"
-                    alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>">
+                <?php if ($is_editor): ?>
+                    <!-- Editor: load image immediately -->
+                    <img src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
+                        loading="eager"
+                        alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>">
+                <?php else: ?>
+                    <!-- Frontend: use lazy loading -->
+                    <img data-src="<?php echo esc_url($slot_data['image']['sizes']['large'] ?? $slot_data['image']['url']); ?>"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 233'%3E%3C/svg%3E"
+                        loading="lazy"
+                        class="lazy-load-image"
+                        alt="<?php echo esc_attr($slot_data['image']['alt'] ?: $slot_data['image']['title'] ?: ''); ?>">
+                <?php endif; ?>
 
                 <?php if (!empty($slot_data['link']) && !empty($slot_data['link']['title'])): ?>
                     <div class="caption">

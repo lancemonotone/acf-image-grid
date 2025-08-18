@@ -1,6 +1,6 @@
 <?php
 
-namespace MonotoneACFImageGrid\Blocks;
+namespace Monotone\Blocks\ACFImageGrid;
 
 class ACF_Image_Grid {
     public function __construct() {

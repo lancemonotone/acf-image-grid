@@ -30,7 +30,7 @@ class ACFImageGridSlideshow {
     // Spinner functionality
     this.loadedImages = new Set();
     this.DEBUG_PREVENT_LOADING = false;
-    this.DEBUG_SHOW_OVERLAY = true;
+    this.DEBUG_SHOW_OVERLAY = false;
 
     this.init();
   }

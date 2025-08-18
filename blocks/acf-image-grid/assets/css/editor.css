@@ -50,6 +50,44 @@
   }
 }
 
+/* Editor-specific image visibility fixes */
+.acf-image-grid {
+  /* Ensure all images are visible immediately in editor */
+  .slot img:not(.acf-spinner-medium) {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Show captions immediately in editor */
+  .slot.secondary .caption {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Mark slots as having loaded images for caption visibility */
+  .slot.secondary {
+    &.image-loaded .caption {
+      opacity: 1 !important;
+    }
+  }
+
+  /* Hide loading spinners in editor since images load immediately */
+  .acf-image-loading-spinner {
+    display: none !important;
+  }
+
+  /* Ensure slideshow images are visible */
+  .slot.primary .slideshow .slide img:not(.acf-spinner-medium) {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Show active slideshow slide */
+  .slot.primary .slideshow .slide.active img:not(.acf-spinner-medium) {
+    opacity: 1 !important;
+  }
+}
+
 /* ACF field group styling improvements */
 .acf-field-group {
   .acf-field-group-title {
