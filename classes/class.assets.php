@@ -4,9 +4,11 @@ namespace MonotoneAcfBlockScaffold;
 
 class Assets {
     private $debug = false;
+    private $config = null;
 
     public function __construct() {
-        $this->debug = defined('WP_DEBUG') && WP_DEBUG;
+        $this->config = defined('PLUGIN_CONFIG') ? PLUGIN_CONFIG : [];
+        $this->debug = $this->config['debug'] ?? false;
         add_action('init', [$this, 'maybe_build_assets'], 5);
         add_action('wp_enqueue_scripts', [$this, 'register_assets']);
         add_action('enqueue_block_editor_assets', [$this, 'register_editor_assets']);
@@ -14,7 +16,9 @@ class Assets {
     }
 
     public function maybe_build_assets() {
-        if ($this->debug) {
+        // Check if minification is disabled via config
+        $minify_enabled = $this->config['assets']['minify'] ?? true;
+        if ($this->debug && !$minify_enabled) {
             return;
         }
 
@@ -112,7 +116,8 @@ class Assets {
         // Register style
         $style_path = $block_dir . '/assets/css/style.css';
         if (file_exists($style_path)) {
-            $style_url = plugins_url("blocks/{$block_name}/assets/css/" . ($this->debug ? 'style.css' : 'style.min.css'), dirname(__FILE__));
+            $minify_enabled = $this->config['assets']['minify'] ?? true;
+            $style_url = plugins_url("blocks/{$block_name}/assets/css/" . ($this->debug && !$minify_enabled ? 'style.css' : 'style.min.css'), dirname(__FILE__));
             wp_register_style(
                 $handle,
                 $style_url,
@@ -125,7 +130,8 @@ class Assets {
         // Register script
         $script_path = $block_dir . '/assets/js/script.js';
         if (file_exists($script_path)) {
-            $script_url = plugins_url("blocks/{$block_name}/assets/js/" . ($this->debug ? 'script.js' : 'script.min.js'), dirname(__FILE__));
+            $minify_enabled = $this->config['assets']['minify'] ?? true;
+            $script_url = plugins_url("blocks/{$block_name}/assets/js/" . ($this->debug && !$minify_enabled ? 'script.js' : 'script.min.js'), dirname(__FILE__));
             wp_register_script(
                 $handle,
                 $script_url,
@@ -160,7 +166,8 @@ class Assets {
         // Register main style first
         $style_path = $block_dir . '/assets/css/style.css';
         if (file_exists($style_path)) {
-            $style_url = plugins_url("blocks/{$block_name}/assets/css/" . ($this->debug ? 'style.css' : 'style.min.css'), dirname(__FILE__));
+            $minify_enabled = $this->config['assets']['minify'] ?? true;
+            $style_url = plugins_url("blocks/{$block_name}/assets/css/" . ($this->debug && !$minify_enabled ? 'style.css' : 'style.min.css'), dirname(__FILE__));
             wp_register_style(
                 $handle . '-main',
                 $style_url,
