@@ -6,7 +6,7 @@
   "icon": "format-gallery",
   "keywords": ["image", "grid", "gallery", "acf"],
   "acf": {
-    "mode": "preview",
+    "mode": "auto",
     "renderCallback": "MonotoneAcfBlockScaffold\\Block_Renderer::render_block",
     "useEditorTemplate": false
   },
