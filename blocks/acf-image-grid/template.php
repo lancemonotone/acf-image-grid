@@ -148,15 +148,21 @@ $autoplay_data = [
                 <?php endif; ?>
 
                 <?php if (!empty($slot_data['link']) && !empty($slot_data['link']['url'])): ?>
-                    <a href="<?php echo esc_url($slot_data['link']['url']); ?>"
-                        class="link"
-                        <?php if (!empty($slot_data['link']['target'])): ?>
-                        target="<?php echo esc_attr($slot_data['link']['target']); ?>"
-                        <?php endif; ?>
-                        <?php if (!empty($slot_data['link']['title'])): ?>
-                        title="<?php echo esc_attr($slot_data['link']['title']); ?>"
-                        <?php endif; ?>
-                        aria-label="<?php echo esc_attr($slot_data['link']['title'] ?: 'View image'); ?>"></a>
+                    <?php if (!is_admin() && !$is_preview): ?>
+                        <a href="<?php echo esc_url($slot_data['link']['url']); ?>"
+                            class="link"
+                            <?php if (!empty($slot_data['link']['target'])): ?>
+                            target="<?php echo esc_attr($slot_data['link']['target']); ?>"
+                            <?php endif; ?>
+                            <?php if (!empty($slot_data['link']['title'])): ?>
+                            title="<?php echo esc_attr($slot_data['link']['title']); ?>"
+                            <?php endif; ?>
+                            aria-label="<?php echo esc_attr($slot_data['link']['title'] ?: 'View image'); ?>"></a>
+                    <?php else: ?>
+                        <div class="link-placeholder"
+                            title="<?php echo esc_attr($slot_data['link']['title'] ?: 'Link'); ?>"
+                            aria-label="<?php echo esc_attr($slot_data['link']['title'] ?: 'Link placeholder'); ?>"></div>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>
                 <div class="placeholder">

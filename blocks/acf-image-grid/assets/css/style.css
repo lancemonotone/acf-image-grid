@@ -5,7 +5,7 @@
 
 .acf-image-grid {
   display: grid;
-  gap: var(--grid-gap, 20px);
+  gap: var(--grid-gap);
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
   width: 100%;
@@ -13,7 +13,7 @@
   min-height: 800px;
   height: 80vh;
   box-sizing: border-box;
-  
+
   .slot {
     overflow: hidden;
     background: var(--bg-color, #f8f9fa);
@@ -111,39 +111,39 @@
           padding: 0;
           z-index: 10;
           outline: none;
-          
+
           &.acf-slideshow-prev {
             left: 15px;
           }
-          
+
           &.acf-slideshow-next {
             right: 15px;
           }
-          
+
           svg {
             width: 100%;
             height: 100%;
             transition: transform 0.3s ease;
             filter: drop-shadow(2px 1px 12px #000);
-            
+
             .bg {
               fill: none;
               stroke: none;
             }
-            
+
             .arrow {
               fill: white;
               transition: fill 0.3s ease;
             }
           }
-          
+
           &:hover,
           &:focus {
             svg {
               transform: scale(1.1);
             }
           }
-          
+
           &:focus {
             outline: 2px solid white;
             outline-offset: 2px;
@@ -160,24 +160,24 @@
           gap: 10px;
           z-index: 10;
 
-                  .dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          border: none;
-          background: rgba(255, 255, 255, 0.5);
-          cursor: pointer;
-          transition: all 0.3s ease;
+          .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
 
-          &.active,
-          &:hover,
-          &:focus {
-            background: white;
-            outline: 1px solid rgba(0, 0, 0, 0.3);
-            outline-offset: 1px;
-            transform: scale(1.2);
+            &.active,
+            &:hover,
+            &:focus {
+              background: white;
+              outline: 1px solid rgba(0, 0, 0, 0.3);
+              outline-offset: 1px;
+              transform: scale(1.2);
+            }
           }
-        }
         }
 
         .counter {
@@ -198,38 +198,36 @@
 
     &.secondary {
       position: relative;
-      
+
       /* Slot 2: columns 9-12, rows 1-4 */
       &:nth-of-type(2) {
         grid-column: 9 / 13;
         grid-row: 1 / 5;
       }
-      
+
       /* Slot 3: columns 9-12, rows 5-8 */
       &:nth-of-type(3) {
         grid-column: 9 / 13;
         grid-row: 5 / 9;
       }
-      
+
       /* Slot 4: columns 1-4, rows 9-12 */
       &:nth-of-type(4) {
         grid-column: 1 / 5;
         grid-row: 9 / 13;
       }
-      
+
       /* Slot 5: columns 5-8, rows 9-12 */
       &:nth-of-type(5) {
         grid-column: 5 / 9;
         grid-row: 9 / 13;
       }
-      
+
       /* Slot 6: columns 9-12, rows 9-12 */
       &:nth-of-type(6) {
         grid-column: 9 / 13;
         grid-row: 9 / 13;
       }
-
-
 
       img {
         width: 100%;
@@ -262,14 +260,12 @@
           font-weight: 500;
           padding: 0.5rem;
           letter-spacing: 1px;
-  line-height: 1.2;
+          line-height: 1.2;
           color: #fff;
           text-shadow: 2px 1px 12px #000;
           margin: 0;
         }
       }
-
-
 
       .link {
         position: absolute;
@@ -307,13 +303,13 @@
     /* Keep 12x12 grid but adjust sizing */
     min-height: 600px;
     height: 70vh;
-    
+
     .slot.primary .slideshow {
       .acf-slideshow-nav {
         width: 38px;
         height: 38px;
       }
-      
+
       .dots .dot {
         width: 7.5px;
         height: 7.5px;
@@ -325,7 +321,7 @@
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, auto);
-    gap: var(--grid-gap, 15px);
+    gap: var(--grid-gap);
     min-height: auto;
     height: auto;
     max-width: 100%;
@@ -345,18 +341,28 @@
     .slot.primary {
       display: none;
     }
-    
+
     .slot.secondary {
-      &:nth-of-type(2) { order: 1; }
-      &:nth-of-type(3) { order: 2; }
-      &:nth-of-type(4) { order: 3; }
-      &:nth-of-type(5) { order: 4; }
-      &:nth-of-type(6) { order: 5; }
-      
+      &:nth-of-type(2) {
+        order: 1;
+      }
+      &:nth-of-type(3) {
+        order: 2;
+      }
+      &:nth-of-type(4) {
+        order: 3;
+      }
+      &:nth-of-type(5) {
+        order: 4;
+      }
+      &:nth-of-type(6) {
+        order: 5;
+      }
+
       &:hover {
         transform: none;
       }
-      
+
       .caption .text {
         font-size: clamp(2rem, 0.572rem + 3.81vw, 4rem);
       }
@@ -367,52 +373,50 @@
         height: 100%;
         object-fit: cover;
       }
-
     }
-    
+
     .slot.primary .slideshow {
-        .acf-slideshow-nav {
-          width: 36px;
-          height: 36px;
-          
-          &.acf-slideshow-prev {
-            left: 10px;
-          }
-          
-          &.acf-slideshow-next {
-            right: 10px;
-          }
+      .acf-slideshow-nav {
+        width: 36px;
+        height: 36px;
+
+        &.acf-slideshow-prev {
+          left: 10px;
         }
-        
-        .dots {
-          bottom: 10px;
-          gap: 6px;
-          
-          .dot {
-            width: 6px;
-            height: 6px;
-          }
-        }
-        
-        .counter {
-          top: 10px;
+
+        &.acf-slideshow-next {
           right: 10px;
-          padding: 6px 10px;
-          font-size: 12px;
         }
+      }
+
+      .dots {
+        bottom: 10px;
+        gap: 6px;
+
+        .dot {
+          width: 6px;
+          height: 6px;
+        }
+      }
+
+      .counter {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 12px;
       }
     }
   }
+}
 
-  /* Small mobile */
-  @media (max-width: 480px) {
-    --grid-gap: 10px;
-    
-    .slot.primary .slideshow {
-      .acf-slideshow-nav {
-        width: 32px;
-        height: 32px;
-      }
+/* Small mobile */
+@media (max-width: 480px) {
+  --grid-gap: 10px;
+
+  .slot.primary .slideshow {
+    .acf-slideshow-nav {
+      width: 32px;
+      height: 32px;
     }
   }
 }
@@ -436,23 +440,23 @@
     .slot.primary .slideshow .slide {
       transition: none !important;
     }
-    
+
     .slot.secondary {
       transition: none !important;
-      
+
       img {
         transition: none !important;
       }
-      
+
       .caption {
         transition: none !important;
       }
     }
-    
+
     .slot.primary .slideshow .arrows .arrow {
       transition: none !important;
     }
-    
+
     .slot.primary .slideshow .dots .dot {
       transition: none !important;
     }
@@ -467,17 +471,17 @@
         background: #000;
         border: 2px solid #fff;
       }
-      
+
       .dots .dot {
         border-width: 3px;
       }
-      
+
       .counter {
         background: #000;
         border: 1px solid #fff;
       }
     }
-    
+
     .slot.empty {
       border-width: 3px;
       background: #fff;
@@ -491,24 +495,24 @@
   .acf-image-grid {
     display: block !important;
     gap: 0 !important;
-    
+
     .slot {
       display: block !important;
       page-break-inside: avoid;
       margin-bottom: 1rem;
-      
+
       &.primary .slideshow {
         .arrows,
         .dots,
         .counter {
           display: none !important;
         }
-        
+
         .slide:not(.active) {
           display: none !important;
         }
       }
-      
+
       .caption {
         position: static !important;
         transform: none !important;
