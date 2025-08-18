@@ -81,7 +81,14 @@ class ACFImageGridSlideshow {
     const containerId = container
       ? container.dataset.slideIndex || container.dataset.slotNumber
       : "unknown";
-    const imgId = `${imgSrc}-${containerId}`;
+
+    // Create a unique identifier that includes the container context
+    const containerType = container
+      ? container.classList.contains("slide")
+        ? "slide"
+        : "slot"
+      : "unknown";
+    const imgId = `${imgSrc}-${containerType}-${containerId}`;
 
     // Skip if already loaded in this specific container
     if (this.loadedImages.has(imgId)) {
@@ -143,14 +150,54 @@ class ACFImageGridSlideshow {
         }, 300);
       }
       img.removeEventListener("load", onImageLoad);
+      img.removeEventListener("error", onImageError);
     };
 
-    // Attach load listener before setting src/srcset to catch fast loads
+    const onImageError = (error) => {
+      // Remove loading state
+      img.classList.remove("loading");
+
+      // Fade out spinner
+      if (spinnerEl) {
+        spinnerEl.classList.remove("visible");
+        setTimeout(() => {
+          spinnerEl.remove();
+        }, 300);
+      }
+
+      // Add error indicator
+      img.style.border = "2px solid red";
+      img.style.backgroundColor = "#ffebee";
+
+      // Create error message
+      const errorMsg = document.createElement("div");
+      errorMsg.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 0, 0, 0.8);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 100;
+        text-align: center;
+        max-width: 200px;
+      `;
+      errorMsg.textContent = "Image failed to load";
+      img.parentElement.appendChild(errorMsg);
+
+      img.removeEventListener("load", onImageLoad);
+      img.removeEventListener("error", onImageError);
+    };
+
+    // Attach load and error listeners before setting src/srcset to catch fast loads
     img.addEventListener("load", onImageLoad, { once: true });
+    img.addEventListener("error", onImageError, { once: true });
 
     // DEBUG: Prevent image loading if debug flag is true
     if (this.DEBUG_PREVENT_LOADING) {
-      // Keep spinner visible for testing
       return;
     }
 
@@ -339,7 +386,9 @@ class ACFImageGridSlideshow {
 
     // Dot navigation
     this.dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => this.goToSlide(index));
+      dot.addEventListener("click", () => {
+        this.goToSlide(index);
+      });
     });
 
     // Keyboard navigation
@@ -399,11 +448,6 @@ class ACFImageGridSlideshow {
   }
 
   goToSlide(index) {
-    // DEBUG: Prevent slide navigation if debug flag is true
-    if (this.DEBUG_PREVENT_LOADING) {
-      return;
-    }
-
     if (
       index === this.currentSlide ||
       index < 0 ||
@@ -499,11 +543,6 @@ class ACFImageGridSlideshow {
   }
 
   startAutoplay() {
-    // DEBUG: Prevent autoplay if debug flag is true
-    if (this.DEBUG_PREVENT_LOADING) {
-      return;
-    }
-
     if (this.slides.length <= 1 || this.isPlaying) return;
 
     this.isPlaying = true;
