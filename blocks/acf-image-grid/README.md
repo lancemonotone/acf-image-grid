@@ -12,14 +12,17 @@ An Advanced Custom Fields image grid block for displaying image galleries.
 ## Structure
 
 ```
-acf-image-grid/
+example-block/
 ├── assets/
 │   ├── css/
 │   │   └── style.css
+│   │   images/
+|   |   └── tribe-loading.gif
 │   └── js/
 │       └── script.js
 ├── block.json
 ├── class.block.php
+├── fields.json
 ├── README.md
 └── template.php
 ```
@@ -34,7 +37,28 @@ Example:
 "renderCallback": "MonotoneAcfBlockScaffold\\Block_Renderer::render_block"
 ```
 
-The plugin's core classes (Block_Renderer, Field_Groups, Block_Loader, etc.) all use the `MonotoneAcfBlockScaffold` namespace, while individual blocks use their own namespaces like `Monotone\Blocks\ACFImageGrid`.
+The plugin's core classes (Block_Renderer, Field_Groups, Block_Loader, etc.) all use the `MonotoneAcfBlockScaffold` namespace, while individual blocks use their own namespaces like `YourPlugin\Blocks`.
+
+## Important: Asset Registration
+
+**⚠️ CRITICAL:** DO NOT include `"style"` or `"editorStyle"` declarations in your `block.json` file. The Assets class handles all asset registration automatically. Including these declarations will cause duplicate CSS loading.
+
+**❌ WRONG - Don't do this:**
+
+```json
+{
+  "style": "file:./assets/css/style.css",
+  "editorStyle": "file:./assets/css/editor.css"
+}
+```
+
+**✅ CORRECT - Let the Assets class handle it:**
+
+```json
+{
+  // No style declarations - Assets class handles everything
+}
+```
 
 ## Usage
 
