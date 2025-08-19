@@ -6,6 +6,8 @@
 /* Editor-only slot number overlays */
 .acf-image-grid {
   position: relative;
+  min-height: unset;
+  height: unset;
 
   .slot {
     position: relative;
