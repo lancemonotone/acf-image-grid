@@ -12,7 +12,7 @@
   },
   "supports": {
     "align": false,
-    "mode": false,
+    "mode": true,
     "jsx": false
   },
   "textdomain": "acf-image-grid"
