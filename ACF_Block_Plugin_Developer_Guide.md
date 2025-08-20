@@ -1,6 +1,6 @@
-# ACF Image Grid – Developer Guide (Conformed)
+# WP Block Scaffold – Developer Guide
 
-This document describes how this specific plugin (`acf-image-grid`) is structured and how it integrates with the shared MU scaffold. It replaces generic examples with the files that actually exist in this repository and clearly marks optional items that are not present.
+This document describes how the `wp-block-scaffold` plugin is structured and how it integrates with the shared MU scaffold. It uses the actual files in this repository and clearly marks optional items that are not present.
 
 What you CAN change in this plugin:
 
@@ -22,14 +22,29 @@ What you CAN change in this plugin:
 
 ## MU Scaffold
 
-Core classes under the `MonotoneAcfBlockScaffold` namespace are provided by a shared MU‑plugin in `wp-content/mu-plugins`. This plugin does not copy those classes. The main plugin file defines `PLUGIN_*` constants from `config.php` and calls `monotone_acf_scaffold_boot()` which initializes the scaffold for this plugin context.
+Core classes under the `MonotoneAcfBlockScaffold` namespace are provided by a shared MU plugin in `wp-content/mu-plugins`. This plugin does not copy those classes. The main plugin file loads `config.php`, sets a `base_file` hint, and boots the scaffold class which builds the context and loads all components.
+
+Boot snippet used by this plugin:
+
+```php
+$config_file = plugin_dir_path(__FILE__) . 'config.php';
+if (!file_exists($config_file)) {
+    throw new \LogicException('WP Block Scaffold config.php not found.');
+}
+$plugin_config = include $config_file;
+if (!$plugin_config) {
+    throw new \LogicException('WP Block Scaffold configuration failed to load.');
+}
+$plugin_config['base_file'] = __FILE__;
+(new \MonotoneAcfBlockScaffold\Scaffold($plugin_config))->run();
+```
 
 ## Plugin Structure
 
 ```
-acf-image-grid/
+wp-block-scaffold/
 ├── blocks/
-│   └── acf-image-grid/
+│   └── example-block/
 │       ├── assets/
 │       │   ├── css/
 │       │   │   ├── editor.css
@@ -45,27 +60,25 @@ acf-image-grid/
 │       ├── class.block.php
 │       ├── fields.json
 │       ├── README.md
-│       ├── DEVELOPMENT_PLAN.md (optional/project‑specific)
+│       ├── DEVELOPMENT_PLAN.md (optional/project-specific)
 │       └── template.php
 ├── ACF_Block_Plugin_Developer_Guide.md (this file)
 ├── README.md (plugin description and usage)
 ├── .gitignore
-├── acf-image-grid.php
+├── wp-block-scaffold.php
 └── config.php
 ```
 
 Notes:
 
-- The image asset folder is `assets/images/` (not `img/`).
-- There is one block in this plugin: `acf-image-grid`.
-- `template-editor.php` is not present and is not used by this block.
+- Example block folder is `blocks/example-block`.
+- `template-editor.php` is not present in the example and is not required. The scaffold falls back to `template.php` in the editor if an editor template is missing.
 
 ## Core Files
 
-### Main Plugin File (`acf-image-grid.php`)
+### Main Plugin File (`wp-block-scaffold.php`)
 
-- Defines `PLUGIN_CONFIG`, `PLUGIN_SLUG`, `PLUGIN_TEXT_DOMAIN`, `PLUGIN_BASE_PATH`, and `PLUGIN_BASE_URL` from `config.php`.
-- Boots the scaffold via `monotone_acf_scaffold_boot()`.
+- Loads `config.php`, adds `$plugin_config['base_file'] = __FILE__`, and boots the scaffold via `new MonotoneAcfBlockScaffold\Scaffold($plugin_config))->run()`.
 
 ### Configuration File (`config.php`)
 
@@ -73,19 +86,19 @@ Key values used by this plugin:
 
 ```php
 return [
-    'name' => 'ACF Image Grid',
-    'slug' => 'acf-image-grid',
-    'namespace' => 'ACFImageGrid',
-    'text_domain' => 'acf-image-grid',
+    'name' => 'WP Block Scaffold',
+    'slug' => 'wp-block-scaffold',
+    'namespace' => 'WPBlockScaffold',
+    'text_domain' => 'wp-block-scaffold',
     'version' => '1.0.0',
-    'author' => 'Rus Miller',
-    'description' => 'Advanced Custom Fields Image Grid blocks for WordPress',
+    'author' => 'Your Name',
+    'description' => 'A scaffold for WordPress block development',
     'block_category' => [
-        'slug' => 'acf-image-grid',
-        'title' => 'ACF Image Grid',
-        'icon' => 'format-gallery'
+        'slug' => 'wp-block-scaffold',
+        'title' => 'WP Block Scaffold',
+        'icon' => 'admin-generic'
     ],
-    'post_types' => [],
+    'post_types' => [ /* optional; example included in file */ ],
     'debug' => false,
     'assets' => [ 'minify' => true ]
 ];
@@ -96,7 +109,7 @@ return [
 ### Block Directory (Actual)
 
 ```
-blocks/acf-image-grid/
+blocks/example-block/
 ├── assets/ (css, js, images)
 ├── block.json
 ├── class.block.php
@@ -106,29 +119,36 @@ blocks/acf-image-grid/
 
 ### `block.json`
 
-This block uses the scaffold renderer and does not use a separate editor template:
+Uses the scaffold renderer. No separate editor template is required; the renderer falls back to `template.php` in the editor if `template-editor.php` is absent.
 
 ```json
 {
+  "name": "acf/example",
+  "title": "Example Block",
+  "description": "A scaffold for block development",
+  "category": "wp-block-scaffold",
+  "icon": "block-default",
+  "keywords": ["scaffold", "example"],
   "acf": {
     "mode": "auto",
     "renderCallback": "MonotoneAcfBlockScaffold\\Block_Renderer::render_block",
     "useEditorTemplate": false
   },
-  "textdomain": "acf-image-grid"
+  "supports": { "align": false, "mode": false, "jsx": false },
+  "textdomain": "wp-block-scaffold"
 }
 ```
 
 ### `class.block.php`
 
-The block registers itself using the block folder path:
+Registers the block using the block folder path so WordPress reads its `block.json`:
 
 ```php
 <?php
 
-namespace Monotone\Blocks\ACFImageGrid;
+namespace WPBlockScaffold\Blocks;
 
-class ACF_Image_Grid {
+class Example_Block {
     public function __construct() {
         add_action('init', [$this, 'register_block']);
     }
@@ -137,11 +157,13 @@ class ACF_Image_Grid {
         register_block_type(__DIR__);
     }
 }
+
+new Example_Block();
 ```
 
 ### `template.php`
 
-Rendered by the scaffold via `Block_Renderer::render_block`. This plugin does not include a `template-editor.php` and sets `useEditorTemplate` to `false`.
+Rendered by the scaffold via `Block_Renderer::render_block`. If you add a `template-editor.php` later and set `acf.useEditorTemplate` to `true`, the renderer will prefer it; otherwise it will automatically fall back to `template.php` in the editor.
 
 ### `fields.json`
 
@@ -162,7 +184,7 @@ ACF field group for this block is bundled as JSON in the block folder.
 
 ## Optional Files Not Present
 
-These are supported by the scaffold but not included in this block:
+Supported by the scaffold but not included in this example block:
 
 - `template-editor.php` (set `acf.useEditorTemplate` to `true` in `block.json` if you add it)
 - `assets/js/editor.js` (editor‑only behavior)

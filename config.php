@@ -28,7 +28,7 @@ return [
 
     'debug' => false, // Set to true to disable minification and serve unminified files
     'assets' => [
-        'minify' => true, // Force minification even in debug mode
+        'minify' => false, // Force minification even in debug mode
         'always_load_css' => false // Only load CSS when block is present on page
     ]
 ];

@@ -3,6 +3,27 @@
   "title": "ACF Image Grid",
   "fields": [
     {
+      "key": "field_grid_settings",
+      "label": "Grid Settings",
+      "name": "grid_settings",
+      "type": "group",
+      "layout": "block",
+      "sub_fields": [
+        {
+          "key": "field_gap_size",
+          "label": "Gap Size",
+          "name": "gap_size",
+          "type": "select",
+          "choices": {
+            "small": "Small (10px)",
+            "medium": "Medium (20px)",
+            "large": "Large (30px)"
+          },
+          "default_value": "medium"
+        }
+      ]
+    },
+    {
       "key": "field_slideshow_images",
       "label": "Slideshow Images (Slot 1)",
       "name": "slideshow_images",
@@ -203,27 +224,6 @@
           "type": "link",
           "instructions": "The Link Text will be used as the caption for this image",
           "return_format": "array"
-        }
-      ]
-    },
-    {
-      "key": "field_grid_settings",
-      "label": "Grid Settings",
-      "name": "grid_settings",
-      "type": "group",
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_gap_size",
-          "label": "Gap Size",
-          "name": "gap_size",
-          "type": "select",
-          "choices": {
-            "small": "Small (10px)",
-            "medium": "Medium (20px)",
-            "large": "Large (30px)"
-          },
-          "default_value": "medium"
         }
       ]
     }
