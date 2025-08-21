@@ -89,6 +89,34 @@ class ImageErrorHandler {
  */
 class SpinnerManager {
   /**
+   * Get the plugin URL dynamically using WordPress globals
+   * @returns {string} - The plugin base URL
+   */
+  static getPluginUrl() {
+    // Try WordPress globals first
+    if (typeof wp !== "undefined" && wp.url && wp.url.pluginUrl) {
+      return wp.url.pluginUrl + "/acf-image-grid";
+    }
+
+    // Try window.wp if available
+    if (
+      typeof window.wp !== "undefined" &&
+      window.wp.url &&
+      window.wp.url.pluginUrl
+    ) {
+      return window.wp.url.pluginUrl + "/acf-image-grid";
+    }
+
+    // Check for localized script data (common WordPress pattern)
+    if (typeof acfImageGridData !== "undefined" && acfImageGridData.pluginUrl) {
+      return acfImageGridData.pluginUrl;
+    }
+
+    // Fallback to standard WordPress plugin path
+    return "/wp-content/plugins/acf-image-grid";
+  }
+
+  /**
    * Create an individual loading spinner for an image
    * @returns {HTMLElement} - The spinner element
    */
@@ -99,7 +127,8 @@ class SpinnerManager {
     const img = document.createElement("img");
     img.className = "acf-spinner-medium";
     img.src =
-      "/wp-content/themes/destination-williamstown/assets/images/tribe-loading.gif";
+      SpinnerManager.getPluginUrl() +
+      "/blocks/acf-image-grid/assets/images/tribe-loading.gif";
     img.alt = "Loading Image";
 
     spinner.appendChild(img);

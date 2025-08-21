@@ -4,7 +4,8 @@
  * Plugin Name: ACF Image Grid
  * Description: Advanced Custom Fields Image Grid blocks for WordPress
  * Version: 1.0.0
- * Author: Your Name
+ * Author: Rus Miller
+ * Author URI: https://rusmiller.com
  * Text Domain: acf-image-grid
  */
 

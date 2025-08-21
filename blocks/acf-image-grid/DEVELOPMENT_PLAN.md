@@ -37,7 +37,7 @@
 
 ### External Dependencies
 
-- **Spinner Image**: `/wp-content/themes/destination-williamstown/assets/images/tribe-loading.gif`
+- **Spinner Image**: `/blocks/acf-image-grid/assets/images/tribe-loading.gif` (dynamically loaded from plugin)
 - **No jQuery**: Pure vanilla JavaScript implementation
 - **Intersection Observer API**: For performance optimization
 - **Fetch API**: For image loading (implicit)
